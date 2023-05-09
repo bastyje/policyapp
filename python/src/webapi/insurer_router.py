@@ -13,6 +13,7 @@ router = APIRouter(
     tags=['Insurer']
 )
 
+
 @router.post('/')
 @inject
 def get_all(

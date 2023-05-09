@@ -13,15 +13,7 @@ class GetPremiumCountByInsurerModel(Base):
     __tablename__ = 'fntGetPremiumCountByInsurer'
 
     # Database structure
-    PolicyId: Mapped[int] = mapped_column(Integer(), primary_key=True)
     Risk: Mapped[str] = mapped_column(String(128))
-    Currency: Mapped[str] = mapped_column(String(128))
-    PremiumSum: Mapped[Decimal] = mapped_column(DECIMAL(precision=20, scale=2))
-    Make: Mapped[str] = mapped_column(String(64))
-    Model: Mapped[str] = mapped_column(String(64))
-    Vin: Mapped[str] = mapped_column(String(17))
-    RegistrationNumber: Mapped[str] = mapped_column(String(16))
-    Name: Mapped[str] = mapped_column(String(128))
-    LastName: Mapped[str] = mapped_column(String(128))
-    Pesel: Mapped[str] = mapped_column(String(11))
-    BrokerName: Mapped[str] = mapped_column(String(128))
+    Currency: Mapped[str] = mapped_column(String(128), primary_key=True)
+    PremiumSum: Mapped[Decimal] = mapped_column(DECIMAL(precision=20, scale=2), primary_key=True)
+    BrokerName: Mapped[str] = mapped_column(String(128), primary_key=True)

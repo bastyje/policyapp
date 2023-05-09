@@ -4,7 +4,6 @@ from dependency_injector.wiring import Provide, inject
 from fastapi import APIRouter, Depends
 
 from di_container import DIContainer
-from data_access.repositories.policy_repository import PolicyRepository
 from services.broker_service import BrokerService
 from services.models.offer_creation_model import OfferCreationModel
 from services.policy_service import PolicyService
@@ -41,46 +40,6 @@ def get_by_broker(
             response = ServiceMessage(policy_service.get_by_vehicle(vehicle_id))
         else:
             response = ServiceMessage(policy_service.get_by_broker(api_key, is_offer))
-        return response
-
-
-@router.get('/')
-@inject
-def get_by_insurer(
-        insurer_id: int,
-        api_key: str,
-        is_summary: bool,
-        policy_service: PolicyService = Depends(Provide[DIContainer.policy_service]),
-        authentication_service: AuthenticationService = Depends(Provide[DIContainer.authentication_service])
-):
-    with Authentication(authentication_service, api_key):
-        response = ServiceMessage(policy_service.get_by_insurer(insurer_id, is_summary))
-        return response
-
-
-@router.get('/')
-@inject
-def get_by_person(
-        person_id: int,
-        api_key: str,
-        policy_service: PolicyService = Depends(Provide[DIContainer.policy_service]),
-        authentication_service: AuthenticationService = Depends(Provide[DIContainer.authentication_service])
-):
-    with Authentication(authentication_service, api_key):
-        response = ServiceMessage(policy_service.get_by_person(person_id))
-        return response
-
-
-@router.get('/')
-@inject
-def get_by_vehicle(
-        vehicle_id: int,
-        api_key: str,
-        policy_service: PolicyService = Depends(Provide[DIContainer.policy_service]),
-        authentication_service: AuthenticationService = Depends(Provide[DIContainer.authentication_service])
-):
-    with Authentication(authentication_service, api_key):
-        response = ServiceMessage(policy_service.get_by_vehicle(vehicle_id))
         return response
 
 

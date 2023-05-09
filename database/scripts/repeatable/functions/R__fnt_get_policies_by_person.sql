@@ -28,6 +28,6 @@ RETURN (
     JOIN [dbo].[Broker] [b] ON [b].[Id] = [p].[BrokerId]
     JOIN [dict].[Risk] [r] ON [r].[Id] = [pr].[RiskId]
     JOIN [dict].[Currency] [c] ON [c].[Id] = [pr].[CurrencyId]
-    WHERE [p].[Id] = @personId AND [p].[IsOffer] = 0
+    WHERE [pe].[Id] = @personId AND [p].[IsOffer] = 0
 )
 GO

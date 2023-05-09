@@ -1,7 +1,6 @@
 from dependency_injector.wiring import inject, Provide
 from fastapi import APIRouter, Depends
 
-from data_access.entities.broker import Broker
 from di_container import DIContainer
 from services.registration_service import RegistrationService
 from services.models.broker_registration_model import BrokerRegistrationModel
