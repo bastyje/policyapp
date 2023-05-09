@@ -1,3 +1,38 @@
+# policyapp
+Aplikacja wykonana jako projekt z przedmiotu
+**Wykorzystanie MS SQL i pakietów MS Business Intelligence do budowy aplikacji**.
+
+<!-- TOC start (generated with https://github.com/derlin/bitdowntoc) -->
+
+- [Opis problemu](#opis-problemu)
+- [Analiza funkcjonalna](#analiza-funkcjonalna)
+  * [Rejestracja](#rejestracja)
+  * [Dodanie szablonu oferty](#dodanie-szablonu-oferty)
+  * [Zawarcie polisy na podstawie oferty](#zawarcie-polisy-na-podstawie-oferty)
+    + [Pobranie polis per broker](#pobranie-polis-per-broker)
+    + [Pobranie polis per ubezpieczyciel](#pobranie-polis-per-ubezpieczyciel)
+    + [Pobranie podsumowania polis per ubezpieczyciel](#pobranie-podsumowania-polis-per-ubezpieczyciel)
+    + [Pobranie polis per pojazd](#pobranie-polis-per-pojazd)
+    + [Pobranie polis per osoba](#pobranie-polis-per-osoba)
+- [Schemat bazy](#schemat-bazy)
+- [Opis realizacji](#opis-realizacji)
+  * [Wykorzystane technologie](#wykorzystane-technologie)
+  * [Realizacja bazy danych](#realizacja-bazy-danych)
+  * [Realizacja aplikacji webowej](#realizacja-aplikacji-webowej)
+    + [Architektura](#architektura)
+    + [Konfiguracja](#konfiguracja)
+    + [Dependency Injection](#dependency-injection)
+    + [Połączenie z bazą danych](#poczenie-z-baz-danych)
+- [Dokumentacja działania](#dokumentacja-dziaania)
+  * [Wprowadzanie danych](#wprowadzanie-danych)
+  * [Raporty](#raporty)
+    + [Podsumowanie składek za polisy danego ubezpieczyciela](#podsumowanie-skadek-za-polisy-danego-ubezpieczyciela)
+    + [Płaski model polis dla danego brokera](#paski-model-polis-dla-danego-brokera)
+    + [Płaski model polis zawartych przez daną osobę](#paski-model-polis-zawartych-przez-dan-osob)
+    + [Płaski model polis zawartych na dany pojazd](#paski-model-polis-zawartych-na-dany-pojazd)
+
+<!-- TOC end -->
+
 ## Opis problemu
 
 PolicyApp jest aplikacją w formie usługi sieciowej (ang. webservice), w stylu RESTopodobnym, służącą do wykonywania różnych operacji 
@@ -191,21 +226,22 @@ naruszał integralności danych w bazie, to powinien się wykonać, a wersja baz
 Aplikacja w języku Python napisana została zgodnie z architekturą warstwową, patrząc od strony przychodzących
 żądań HTTP:
 - warstwa controllerów - obsługująca na poziomie technicznym żądania HTTP i przekazująca je do niższej warstwy;
-kod dla tej warstwy znajduje się w katalogu `src/webapi`
+kod dla tej warstwy znajduje się w katalogu [`src/webapi`](https://github.com/bastyje/policyapp/tree/main/python/src/webapi)
 - warstwa serwisów - serwisy realizują zadania logiki aplikacji; kod dla tej warstwy znajduje się w katalogu
-`src/services`
+[`src/services`](https://github.com/bastyje/policyapp/tree/main/python/src/services)
 - warstwa repozytoriów - warstwa dostępu do danych; abstracja modelu obiektowego reprezentująca relacyjną bazę danych;
-kod dla tej warstwy znajduje się w katalogu `src/data_access`
+kod dla tej warstwy znajduje się w katalogu [`src/data_access`](https://github.com/bastyje/policyapp/tree/main/python/src/data_access)
 
 #### Konfiguracja
 
 Konfiguracja aplikacji, czyli dane zmienne, takie jak np. hasło do bazy danych przechowywane są w pliku
-`src/config/appsettings.json`. Następnie JSON jest deserializowany do obiektu reprezentującego konfigurację
+[`src/config/appsettings.json`](https://github.com/bastyje/policyapp/tree/main/python/src/config/appsettings.json). Następnie JSON jest deserializowany do obiektu reprezentującego konfigurację
 aplikacji i ten obiekt przekazywany jest do kontenera DI odpowiedzialnego za mechanizm Dependency Injection
 
 #### Dependency Injection
 
-Mechanizm Dependency Injection zrealizowany jest z pomocą bibioteki `dependency_injector`. W pliku `src/di_container.py`
+Mechanizm Dependency Injection zrealizowany jest z pomocą bibioteki `dependency_injector`. W pliku 
+[`src/di_container.py`](https://github.com/bastyje/policyapp/tree/main/python/src/di_container.py)
 w kontenerze DI rejestrowane są wszystkie klasy świadczące pewne usługi w aplikacji. Później te klasy, na podstawie
 konfiguracji w wyżej wymienionym pliku, wstrzykiwane są innym usługom przez wcześniej wspomniany kontener. Takie
 rozwiązanie problemu zależności między klasami w projekcie likwiduje tzw. 'architektoniczne spaghetti', w którym klasy
